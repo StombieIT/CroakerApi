@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -45,7 +46,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith(AUTHORIZATION_PREFIX)) {
                 String token = authorizationHeader.substring(AUTHORIZATION_PREFIX.length());
-                Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET);
+                Algorithm algorithm = Constants.ALGORITHM;
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 try {
                     DecodedJWT decodedJWT = verifier.verify(token);
@@ -63,6 +64,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     Map<String, String> errors = new HashMap<>();
                     errors.put("authenticationError", String.format("Invalid token: '%s'", token));
                     response.setContentType(APPLICATION_JSON_VALUE);
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
                     new ObjectMapper().writeValue(response.getOutputStream(), errors);
                 }
             } else {
