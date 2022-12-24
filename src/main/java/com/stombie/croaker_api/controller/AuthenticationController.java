@@ -7,15 +7,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.Map;
 
 @RestController
 public class AuthenticationController {
     @GetMapping("/refresh")
     public ResponseEntity<Map<String, String>> refresh(Authentication authentication) {
-        return ResponseEntity.ok().body(Collections.singletonMap(
-                "accessToken", JsonWebTokens.createToken(authentication, Constants.ALGORITHM, Constants.ACCESS_TOKEN_LIFETIME_IN_MILLIS)
+        return ResponseEntity.ok().body(Map.of(
+                "accessToken", JsonWebTokens.createToken(authentication, Constants.ALGORITHM, Constants.ACCESS_TOKEN_LIFETIME_IN_MILLIS),
+                "refreshToken", JsonWebTokens.createToken(authentication, Constants.ALGORITHM, Constants.REFRESH_TOKEN_LIFETIME_IN_MILLIS)
         ));
     }
 }
