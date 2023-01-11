@@ -1,40 +1,41 @@
 package com.stombie.croaker_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
+import javax.persistence.Table;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-public class Croak {
+@Table(name = "comments")
+public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    @Column(nullable = false, length = 4096)
+    @Column(nullable = false, length = 1024)
     private String text;
     @Column(nullable = false)
     private Date creationDate = new Date();
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id")
     private User author;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "croak")
-    private Set<Like> likes = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "croak_id")
+    private Croak croak;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "croak")
-    private Set<Comment> comments = new HashSet<>();
-
-    public Croak() {
+    public Comment() {
     }
 
-    public Croak(User author, String text) {
+    public Comment(User author, Croak croak, String text) {
         this.author = author;
+        this.croak = croak;
         this.text = text;
     }
 
@@ -50,6 +51,10 @@ public class Croak {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public Date getCreationDate() {
         return creationDate;
     }
@@ -62,23 +67,8 @@ public class Croak {
         return author;
     }
 
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public Set<Like> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(Set<Like> likes) {
-        this.likes = likes;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
+    @JsonIgnore
+    public Croak getCroak() {
+        return croak;
     }
 }
