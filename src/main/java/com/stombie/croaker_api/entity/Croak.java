@@ -6,14 +6,19 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "croaks")
 public class Croak {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -29,6 +34,13 @@ public class Croak {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "croak")
     private Set<Comment> comments = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "croaks_images",
+            joinColumns = @JoinColumn(name = "croak_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id")
+    )
+    private Set<Image> images = new HashSet<>();
 
     public Croak() {
     }
@@ -80,5 +92,13 @@ public class Croak {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
     }
 }
