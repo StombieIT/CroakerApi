@@ -1,14 +1,15 @@
 package com.stombie.croaker_api.controller;
 
+import com.stombie.croaker_api.models.UserGetDto;
+import com.stombie.croaker_api.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stombie.croaker_api.entity.User;
-import com.stombie.croaker_api.service.UserService;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -21,13 +22,10 @@ public class UsersController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Iterable<User>> index() {
-        return ResponseEntity.ok().body(userService.getUsers());
-    }
-
-    @GetMapping("/my")
-    public ResponseEntity<User> my(Authentication authentication) {
-        User user = userService.getUser(authentication.getName());
-        return ResponseEntity.ok().body(user);
+    public ResponseEntity<Iterable<UserGetDto>> index() {
+        return ResponseEntity.ok().body(userService.getUsers()
+                .stream()
+                .map(UserGetDto::new)
+                .collect(Collectors.toList()));
     }
 }
