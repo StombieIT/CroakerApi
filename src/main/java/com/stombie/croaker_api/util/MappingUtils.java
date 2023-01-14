@@ -16,8 +16,4 @@ public class MappingUtils {
         }
         return getLink(image.getFilename());
     }
-
-    public static CroakGetDto mapToDto(Croak croak) {
-        return new CroakGetDto(croak);
-    }
 }

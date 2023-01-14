@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 public class CroakGetDto {
     private final Croak croak;
+    private final Reaction likes;
 
-    public CroakGetDto(Croak croak) {
+    public CroakGetDto(Croak croak, Reaction likes) {
         this.croak = croak;
+        this.likes = likes;
     }
 
     public Long getId() {
@@ -31,5 +33,9 @@ public class CroakGetDto {
 
     public Iterable<String> getImagesLinks() {
         return croak.getImages().stream().map(MappingUtils::getLink).collect(Collectors.toSet());
+    }
+
+    public Reaction getLikes() {
+        return likes;
     }
 }
