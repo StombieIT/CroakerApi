@@ -9,10 +9,12 @@ import java.util.stream.Collectors;
 public class CroakGetDto {
     private final Croak croak;
     private final Reaction likes;
+    private final Reaction comments;
 
-    public CroakGetDto(Croak croak, Reaction likes) {
+    public CroakGetDto(Croak croak, Reaction likes, Reaction comments) {
         this.croak = croak;
         this.likes = likes;
+        this.comments = comments;
     }
 
     public Long getId() {
@@ -37,5 +39,9 @@ public class CroakGetDto {
 
     public Reaction getLikes() {
         return likes;
+    }
+
+    public Reaction getComments() {
+        return comments;
     }
 }
