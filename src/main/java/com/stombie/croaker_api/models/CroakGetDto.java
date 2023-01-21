@@ -10,11 +10,13 @@ public class CroakGetDto {
     private final Croak croak;
     private final Reaction likes;
     private final Reaction comments;
+    private final Reaction replies;
 
-    public CroakGetDto(Croak croak, Reaction likes, Reaction comments) {
+    public CroakGetDto(Croak croak, Reaction likes, Reaction comments, Reaction replies) {
         this.croak = croak;
         this.likes = likes;
         this.comments = comments;
+        this.replies = replies;
     }
 
     public Long getId() {
@@ -43,5 +45,9 @@ public class CroakGetDto {
 
     public Reaction getComments() {
         return comments;
+    }
+
+    public Reaction getReplies() {
+        return replies;
     }
 }

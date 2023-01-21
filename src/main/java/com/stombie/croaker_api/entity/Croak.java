@@ -41,6 +41,10 @@ public class Croak {
             inverseJoinColumns = @JoinColumn(name = "image_id")
     )
     private Set<Image> images = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "originalCroak")
+    private Set<Croak> replies = new HashSet<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Croak originalCroak;
 
     public Croak() {
     }
@@ -48,6 +52,11 @@ public class Croak {
     public Croak(User author, String text) {
         this.author = author;
         this.text = text;
+    }
+
+    public Croak(User author, String text, Croak originalCroak) {
+        this(author, text);
+        this.originalCroak = originalCroak;
     }
 
     public Long getId() {
@@ -100,5 +109,21 @@ public class Croak {
 
     public void setImages(Set<Image> images) {
         this.images = images;
+    }
+
+    public Set<Croak> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(Set<Croak> replies) {
+        this.replies = replies;
+    }
+
+    public Croak getOriginalCroak() {
+        return originalCroak;
+    }
+
+    public void setOriginalCroak(Croak originalCroak) {
+        this.originalCroak = originalCroak;
     }
 }
