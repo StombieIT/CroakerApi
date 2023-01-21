@@ -1,8 +1,6 @@
 package com.stombie.croaker_api.util;
 
-import com.stombie.croaker_api.entity.Croak;
 import com.stombie.croaker_api.entity.Image;
-import com.stombie.croaker_api.models.CroakGetDto;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class MappingUtils {
