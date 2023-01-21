@@ -7,6 +7,10 @@ import com.stombie.croaker_api.util.MappingUtils;
 import java.util.Date;
 
 public class UserGetDto {
+    public static UserGetDto from(User user) {
+        return new UserGetDto(user);
+    }
+
     private final User user;
 
     public UserGetDto(User user) {

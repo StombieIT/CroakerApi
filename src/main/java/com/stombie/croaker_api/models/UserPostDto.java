@@ -1,5 +1,8 @@
 package com.stombie.croaker_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.stombie.croaker_api.entity.User;
+
 public class UserPostDto {
     private String name;
     private String username;
@@ -27,5 +30,14 @@ public class UserPostDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @JsonIgnore
+    public User toUser() {
+        User user = new User();
+        user.setName(name);
+        user.setUsername(username);
+        user.setPassword(password);
+        return user;
     }
 }
