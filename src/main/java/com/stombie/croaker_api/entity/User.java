@@ -41,7 +41,7 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "follower_id")
     )
     private Set<User> followers = new HashSet<>();
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "followers")
     private Set<User> followings = new HashSet<>();
 
     public Long getId() {
