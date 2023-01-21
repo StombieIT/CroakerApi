@@ -8,6 +8,9 @@ public interface CroakRepository extends JpaRepository<Croak, Long> {
     @Query("SELECT COUNT(c) FROM Croak c WHERE c.originalCroak.id = :originalCroakId")
     Long getCountByOriginalCroakId(Long originalCroakId);
 
+    @Query("SELECT COUNT(c) FROM Croak c WHERE c.author.id = :authorId")
+    Long getCountByAuthorId(Long authorId);
+
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM Croak c WHERE c.originalCroak.id = :originalCroakId AND c.author.id = :userId")
     Boolean isActiveByOriginalCroakIdAndUserId(Long originalCroakId, Long userId);
 }
