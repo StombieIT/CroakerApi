@@ -1,5 +1,6 @@
 package com.stombie.croaker_api.service;
 
+import com.stombie.croaker_api.exception.UserAlreadyExistsException;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,15 @@ public class UserService implements UserDetailsService {
         this.roleRepository = roleRepository;
     }
 
-    public User saveUser(User user) {
-        log.info("Successfully saved user with username '{}'", user.getUsername());
-        return userRepository.save(user);
+    public User saveUser(User user) throws UserAlreadyExistsException {
+        User existingUser = getUser(user.getUsername());
+        if (existingUser != null) {
+            log.error("Cannot save user with username '{}' because it already exists", user.getUsername());
+            throw new UserAlreadyExistsException(String.format("User with username '%s' already exists", user.getUsername()));
+        }
+        user = userRepository.save(user);
+        log.info("User with username '{}' saved successfully", user.getUsername());
+        return user;
     }
 
     public Role saveRole(Role role) {
