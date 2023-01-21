@@ -4,6 +4,8 @@ import com.stombie.croaker_api.entity.Image;
 import com.stombie.croaker_api.entity.User;
 import com.stombie.croaker_api.util.MappingUtils;
 
+import java.util.Date;
+
 public class UserGetDto {
     private final User user;
 
@@ -29,5 +31,9 @@ public class UserGetDto {
             return null;
         }
         return MappingUtils.getLink(avatar.getFilename());
+    }
+
+    public Date getRegistrationDate() {
+        return user.getRegistrationDate();
     }
 }
