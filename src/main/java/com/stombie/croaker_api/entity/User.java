@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,6 +34,15 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "avatar_id")
     private Image avatar;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "users_followers",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "follower_id")
+    )
+    private Set<User> followers = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<User> followings = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -88,5 +98,21 @@ public class User {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
+    }
+
+    public Set<User> getFollowings() {
+        return followings;
+    }
+
+    public void setFollowings(Set<User> followings) {
+        this.followings = followings;
     }
 }
