@@ -7,7 +7,10 @@ import com.stombie.croaker_api.repo.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class LikeService {
     private final LikeRepository likeRepository;
 
