@@ -1,5 +1,7 @@
 package com.stombie.croaker_api.controller;
 
+import com.stombie.croaker_api.exception.UserNotFoundException;
+import com.stombie.croaker_api.models.Message;
 import com.stombie.croaker_api.models.ProfileGetDto;
 import com.stombie.croaker_api.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/profiles")
@@ -22,11 +22,12 @@ public class ProfilesController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<ProfileGetDto> index(@PathVariable(required = true) Long userId) {
-        Optional<ProfileGetDto> profileGetDto = profileService.findProfileDtoByUserId(userId);
-        if (profileGetDto.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> index(@PathVariable(required = true) Long userId) {
+        try {
+            ProfileGetDto profileGetDto = profileService.getProfileDtoByUserId(userId);
+            return ResponseEntity.ok().body(profileGetDto);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body(Message.of(e.getMessage()));
         }
-        return ResponseEntity.ok().body(profileGetDto.get());
     }
 }
