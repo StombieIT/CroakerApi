@@ -1,5 +1,6 @@
 package com.stombie.croaker_api.models;
 
+import com.stombie.croaker_api.entity.Image;
 import com.stombie.croaker_api.entity.Profile;
 import com.stombie.croaker_api.util.MappingUtils;
 
@@ -44,7 +45,11 @@ public class ProfileGetDto {
         return followingCount;
     }
 
-    public String backgroundImageLink() {
-        return MappingUtils.getLink(profile.getBackgroundImage().getFilename());
+    public String getBackgroundImageLink() {
+        Image backgroundImage = profile.getBackgroundImage();
+        if (backgroundImage == null) {
+            return null;
+        }
+        return MappingUtils.getLink(backgroundImage.getFilename());
     }
 }
