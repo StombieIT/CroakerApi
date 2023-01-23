@@ -17,7 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
            "CASE WHEN COUNT(u) > 0 THEN TRUE ELSE FALSE END " +
            "FROM User u " +
            "JOIN u.followers f " +
-           "WHERE f.id = :checkerId " +
-           "AND u.id = :userId")
-    Boolean isActiveByUserIdAndCheckerId(Long userId, Long checkerId);
+           "WHERE f.id = :checkerId AND u.id = :userId")
+    Boolean isFollowedByCheckerIdAndUserId(Long checkerId, Long userId);
 }
