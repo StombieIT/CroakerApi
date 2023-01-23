@@ -43,7 +43,7 @@ public class Paginator<T> {
         return 1 < page && page <= pagesCount + 1;
     }
 
-    public List<T> getElements() {
+    public List<T> getItems() {
         return elements.stream()
                 .skip((page - 1) * limit)
                 .limit(limit)
