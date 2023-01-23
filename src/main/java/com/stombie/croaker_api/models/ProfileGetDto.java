@@ -46,10 +46,6 @@ public class ProfileGetDto {
     }
 
     public String getBackgroundImageLink() {
-        Image backgroundImage = profile.getBackgroundImage();
-        if (backgroundImage == null) {
-            return null;
-        }
-        return MappingUtils.getLink(backgroundImage.getFilename());
+        return MappingUtils.getLink(profile.getBackgroundImage());
     }
 }

@@ -1,6 +1,5 @@
 package com.stombie.croaker_api.models;
 
-import com.stombie.croaker_api.entity.Image;
 import com.stombie.croaker_api.entity.User;
 import com.stombie.croaker_api.util.MappingUtils;
 
@@ -30,11 +29,7 @@ public class UserGetDto {
     }
 
     public String getAvatarLink() {
-        Image avatar = user.getAvatar();
-        if (avatar == null) {
-            return null;
-        }
-        return MappingUtils.getLink(avatar.getFilename());
+        return MappingUtils.getLink(user.getAvatar());
     }
 
     public Date getRegistrationDate() {
